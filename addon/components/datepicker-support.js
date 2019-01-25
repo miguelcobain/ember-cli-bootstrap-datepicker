@@ -55,13 +55,19 @@ export default Mixin.create({
         });
       }).
       on('changeMonth', event => {
-        this.sendAction('changeMonth', event.date);
+        if (this.changeMonth) {
+          this.changeMonth(event.date);
+        }
       }).
       on('focusout', event => {
-        this.sendAction('focus-out', this, event);
+        if (this['focus-out']) {
+          this['focus-out'](this, event);
+        }
       }).
       on('focusin', event => {
-        this.sendAction('focus-in', this, event);
+        if (this['focus-in']) {
+          this['focus-in'](this, event);
+        }
       }).
       on('clearDate', event => {
         run(() => {
@@ -69,10 +75,14 @@ export default Mixin.create({
         });
       }).
       on('show', () => {
-        this.sendAction('show');
+        if (this.show) {
+          this.show();
+        }
       }).
       on('hide', () => {
-        this.sendAction('hide');
+        if (this.hide) {
+          this.hide();
+        }
       });
 
     this._updateDatepicker();
@@ -100,9 +110,13 @@ export default Mixin.create({
     this.set('mustUpdateInput', false);
     this.set('value', value);
     if (event.type === 'clearDate') {
-      this.sendAction('clearDate');
+      if (this.clearDate) {
+        this.clearDate();
+      }
     } else {
-      this.sendAction('changeDate', value);
+      if (this.changeDate) {
+        this.changeDate(value);
+      }
     }
   },
 
